@@ -1,0 +1,9 @@
+model,target,memory_ok,latency_ok,size_ok,fits
+LogisticRegression,Cloud,True,True,True,True
+LogisticRegression,Edge,True,True,True,True
+LogisticRegression,Mobile,True,True,True,True
+LogisticRegression,TinyML,False,True,True,False
+RandomForest,Cloud,True,True,True,True
+RandomForest,Edge,True,True,True,True
+RandomForest,Mobile,True,True,True,True
+RandomForest,TinyML,False,True,False,False

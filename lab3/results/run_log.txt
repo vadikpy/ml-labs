@@ -1,0 +1,125 @@
+train 55000  val 5000  test 10000
+
+================ MLP ================
+===================================================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #                   Mult-Adds
+===================================================================================================================
+Sequential                               [1, 10]                   --                        --
+├─Flatten: 1-1                           [1, 784]                  --                        --
+├─Linear: 1-2                            [1, 256]                  200,960                   200,960
+├─ReLU: 1-3                              [1, 256]                  --                        --
+├─Linear: 1-4                            [1, 128]                  32,896                    32,896
+├─ReLU: 1-5                              [1, 128]                  --                        --
+├─Linear: 1-6                            [1, 10]                   1,290                     1,290
+===================================================================================================================
+Total params: 235,146
+Trainable params: 235,146
+Non-trainable params: 0
+Total mult-adds (Units.MEGABYTES): 0.24
+===================================================================================================================
+Input size (MB): 0.00
+Forward/backward pass size (MB): 0.00
+Params size (MB): 0.94
+Estimated Total Size (MB): 0.95
+===================================================================================================================
+  hand  Linear 784→256                    401,408
+  hand  Linear 256→128                     65,536
+  hand  Linear 128→10                       2,560
+  hand FLOPs total          469,504
+  thop MACs  (eval)         234,752  -> x2 = 469,504 FLOPs
+  thop MACs  no fast        234,752  -> x2 = 469,504 FLOPs
+  FlopCounterMode           469,504
+  epoch 1  loss 0.486  val acc 0.8580
+  epoch 2  loss 0.383  val acc 0.8682
+  epoch 3  loss 0.274  val acc 0.8744
+  epoch 4  loss 0.315  val acc 0.8810
+  epoch 5  loss 0.391  val acc 0.8784
+  test acc 0.8741  latency b1 0.027 ms  b128 0.16 ms
+
+================ CNN ================
+===================================================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #                   Mult-Adds
+===================================================================================================================
+Sequential                               [1, 10]                   --                        --
+├─Conv2d: 1-1                            [1, 16, 28, 28]           160                       125,440
+├─ReLU: 1-2                              [1, 16, 28, 28]           --                        --
+├─MaxPool2d: 1-3                         [1, 16, 14, 14]           --                        --
+├─Conv2d: 1-4                            [1, 32, 14, 14]           4,640                     909,440
+├─ReLU: 1-5                              [1, 32, 14, 14]           --                        --
+├─MaxPool2d: 1-6                         [1, 32, 7, 7]             --                        --
+├─Flatten: 1-7                           [1, 1568]                 --                        --
+├─Linear: 1-8                            [1, 10]                   15,690                    15,690
+===================================================================================================================
+Total params: 20,490
+Trainable params: 20,490
+Non-trainable params: 0
+Total mult-adds (Units.MEGABYTES): 1.05
+===================================================================================================================
+Input size (MB): 0.00
+Forward/backward pass size (MB): 0.15
+Params size (MB): 0.08
+Estimated Total Size (MB): 0.24
+===================================================================================================================
+  hand  Conv 1→16 @28²                    225,792
+  hand  Conv 16→32 @14²                 1,806,336
+  hand  Linear 1568→10                     31,360
+  hand FLOPs total        2,063,488
+  thop MACs  (eval)       1,031,744  -> x2 = 2,063,488 FLOPs
+  thop MACs  no fast      1,031,744  -> x2 = 2,063,488 FLOPs
+  FlopCounterMode         2,063,488
+  epoch 1  loss 0.438  val acc 0.8706
+  epoch 2  loss 0.406  val acc 0.8744
+  epoch 3  loss 0.315  val acc 0.8962
+  epoch 4  loss 0.227  val acc 0.8968
+  epoch 5  loss 0.327  val acc 0.9018
+  test acc 0.8921  latency b1 0.102 ms  b128 7.21 ms
+
+================ Attention ================
+========================================================================================================================
+Layer (type:depth-idx)                        Output Shape              Param #                   Mult-Adds
+========================================================================================================================
+Attention                                     [1, 10]                   1,024                     --
+├─Linear: 1-1                                 [1, 16, 64]               3,200                     3,200
+├─TransformerEncoder: 1-2                     [1, 16, 64]               --                        --
+│    └─ModuleList: 2-1                        --                        --                        --
+│    │    └─TransformerEncoderLayer: 3-1      [1, 16, 64]               33,472                    0
+│    │    └─TransformerEncoderLayer: 3-2      [1, 16, 64]               33,472                    0
+├─Linear: 1-3                                 [1, 10]                   650                       650
+========================================================================================================================
+Total params: 71,818
+Trainable params: 71,818
+Non-trainable params: 0
+Total mult-adds (Units.MEGABYTES): 0.00
+========================================================================================================================
+Input size (MB): 0.00
+Forward/backward pass size (MB): 0.01
+Params size (MB): 0.02
+Estimated Total Size (MB): 0.03
+========================================================================================================================
+  hand  patch proj 49→64 ×16              100,352
+  hand  enc1 QKV proj                     393,216
+  hand  enc1 scores QK^T                   32,768
+  hand  enc1 softmax·V                     32,768
+  hand  enc1 out proj                     131,072
+  hand  enc1 FFN                          524,288
+  hand  enc2 QKV proj                     393,216
+  hand  enc2 scores QK^T                   32,768
+  hand  enc2 softmax·V                     32,768
+  hand  enc2 out proj                     131,072
+  hand  enc2 FFN                          524,288
+  hand  Linear 64→10                        1,280
+  hand FLOPs total        2,329,856
+  thop MACs  (eval)          50,816  -> x2 = 101,632 FLOPs
+  thop MACs  no fast        591,488  -> x2 = 1,182,976 FLOPs
+  FlopCounterMode         2,329,856
+  epoch 1  loss 0.548  val acc 0.8130
+  epoch 2  loss 0.443  val acc 0.8394
+  epoch 3  loss 0.353  val acc 0.8532
+  epoch 4  loss 0.341  val acc 0.8610
+  epoch 5  loss 0.322  val acc 0.8636
+  test acc 0.8556  latency b1 0.232 ms  b128 6.97 ms
+
+| model | params | hand FLOPs | thop MACs ×2 | FlopCounterMode | b1 ms | b128 ms | test acc |
+| MLP | 235,146 | 469,504 | 469,504 | 469,504 | 0.027 | 0.16 | 87.41% |
+| CNN | 20,490 | 2,063,488 | 2,063,488 | 2,063,488 | 0.102 | 7.21 | 89.21% |
+| Attention | 71,818 | 2,329,856 | 101,632 | 2,329,856 | 0.232 | 6.97 | 85.56% |

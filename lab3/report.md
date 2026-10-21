@@ -50,6 +50,10 @@ permutation-invariant over patches, so the model can't tell where on the image a
 
 Bias adds, ReLU, softmax, LayerNorm and pooling are not counted. They are O(activations), not O(weights).
 
+Hand calculations on paper (parameters, one-layer FLOPs, whole-model FLOPs, thop comparison):
+
+<img src="hand_calc/page1.jpg" width="32%"> <img src="hand_calc/page2.jpg" width="32%"> <img src="hand_calc/page3.jpg" width="32%">
+
 ### 3.2 Whole model: hand vs measured
 
 | Model | Hand FLOPs | thop MACs ×2 (default) | thop ×2 (MHA fast path off) | `FlopCounterMode` |

@@ -1,0 +1,80 @@
+{
+  "MLP": {
+    "params": 235146,
+    "hand_flops": 469504,
+    "thop_macs": 234752,
+    "thop_macs_nofastpath": 234752,
+    "flopcounter_flops": 469504,
+    "hand_breakdown": {
+      "Linear 784\u2192256": 401408,
+      "Linear 256\u2192128": 65536,
+      "Linear 128\u219210": 2560
+    },
+    "lat_b1_ms": 0.026666501071304083,
+    "lat_b128_ms": 0.15939600416459143,
+    "val_curve": [
+      0.858,
+      0.8682,
+      0.8744,
+      0.881,
+      0.8784
+    ],
+    "test_acc": 0.8741,
+    "train_s": 19.910363912582397
+  },
+  "CNN": {
+    "params": 20490,
+    "hand_flops": 2063488,
+    "thop_macs": 1031744,
+    "thop_macs_nofastpath": 1031744,
+    "flopcounter_flops": 2063488,
+    "hand_breakdown": {
+      "Conv 1\u219216 @28\u00b2": 225792,
+      "Conv 16\u219232 @14\u00b2": 1806336,
+      "Linear 1568\u219210": 31360
+    },
+    "lat_b1_ms": 0.1017294853227213,
+    "lat_b128_ms": 7.213500008219853,
+    "val_curve": [
+      0.8706,
+      0.8744,
+      0.8962,
+      0.8968,
+      0.9018
+    ],
+    "test_acc": 0.8921,
+    "train_s": 79.93077611923218
+  },
+  "Attention": {
+    "params": 71818,
+    "hand_flops": 2329856,
+    "thop_macs": 50816,
+    "thop_macs_nofastpath": 591488,
+    "flopcounter_flops": 2329856,
+    "hand_breakdown": {
+      "patch proj 49\u219264 \u00d716": 100352,
+      "enc1 QKV proj": 393216,
+      "enc1 scores QK^T": 32768,
+      "enc1 softmax\u00b7V": 32768,
+      "enc1 out proj": 131072,
+      "enc1 FFN": 524288,
+      "enc2 QKV proj": 393216,
+      "enc2 scores QK^T": 32768,
+      "enc2 softmax\u00b7V": 32768,
+      "enc2 out proj": 131072,
+      "enc2 FFN": 524288,
+      "Linear 64\u219210": 1280
+    },
+    "lat_b1_ms": 0.23183300800155848,
+    "lat_b128_ms": 6.974312505917624,
+    "val_curve": [
+      0.813,
+      0.8394,
+      0.8532,
+      0.861,
+      0.8636
+    ],
+    "test_acc": 0.8556,
+    "train_s": 102.17684412002563
+  }
+}
